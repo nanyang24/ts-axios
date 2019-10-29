@@ -19,4 +19,5 @@ export interface IAxiosRequestConfig {
   method?: TMethods
   data?: any
   params?: any
+  headers?: any
 }

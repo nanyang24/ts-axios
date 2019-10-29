@@ -1,16 +1,18 @@
-import { isDate } from './util.ts'
+import { isDate, isPlainObject, encode } from './util'
 
-export const buildUrl: (url: string, params?: any) => string = (url, params) => {
-  if (!params) return
+export function buildURL(url: string, params?: any) {
+  if (!params) {
+    return url
+  }
 
   const parts: string[] = []
 
   Object.keys(params).forEach(key => {
-    const val = params[key]
+    let val = params[key]
     if (val === null || typeof val === 'undefined') {
       return
     }
-    let values = []
+    let values: string[]
     if (Array.isArray(val)) {
       values = val
       key += '[]'
@@ -27,5 +29,16 @@ export const buildUrl: (url: string, params?: any) => string = (url, params) => 
     })
   })
 
-  return 's'
+  let serializedParams = parts.join('&')
+
+  if (serializedParams) {
+    const markIndex = url.indexOf('#')
+    if (markIndex !== -1) {
+      url = url.slice(0, markIndex)
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
+  }
+
+  return url
 }

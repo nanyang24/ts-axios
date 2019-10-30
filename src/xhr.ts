@@ -1,6 +1,7 @@
 import { IAxiosRequestConfig, IAxiosResponse, IAxiosPromise } from './types/index'
 import { parseHeaders } from './helper/util'
 import { transformResponse } from './helper/data'
+import { createError } from './helper/error'
 
 export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
   return new Promise((resolve, reject) => {
@@ -39,11 +40,13 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
 
     // 网络异常
     request.onerror = function handleError() {
-      reject(new Error('Network Error'))
+      reject(createError('Network Error', config, null, request))
     }
     // 超时
     request.ontimeout = function handleTimeout() {
-      reject(new Error(`Timeout of ${timeout} ms exceeded`))
+      reject(
+        createError(`Timeout of ${config.timeout} ms exceeded`, config, 'ECONNABORTED', request)
+      )
     }
 
     const handleResponse = (response: IAxiosResponse): void => {
@@ -51,7 +54,15 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
-        reject(new Error(`Request failed with status code ${response.status}`))
+        reject(
+          createError(
+            `Request failed with status code ${response.status}`,
+            config,
+            null,
+            request,
+            response
+          )
+        )
       }
     }
 

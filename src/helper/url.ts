@@ -1,6 +1,6 @@
 import { isDate, isPlainObject, encode } from './util'
 
-export function buildURL(url: string, params?: any) {
+export function buildURL(url: string, params?: any): string {
   if (!params) {
     return url
   }

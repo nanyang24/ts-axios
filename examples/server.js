@@ -81,4 +81,12 @@ router.get('/error/timeout', function(req, res) {
   }, 3000)
 })
 
+router.post('/extend/post', function(req, res) {
+  res.json(req.body)
+})
+
+router.get('/extend/get', function(req, res) {
+  res.json(req.query)
+})
+
 app.use(router)

@@ -1,13 +1,11 @@
 // entrance
-import { IAxiosRequestConfig } from './types/index'
+import { IAxiosRequestConfig, IAxiosPromise } from './types/index'
 import { buildURL } from './helper/url'
 import { transformRequest } from './helper/data'
 import { processHeaders } from './helper/header'
 import xhr from './xhr'
 
-const axios = (config: IAxiosRequestConfig): void => {
-  xhr(processConfig(config))
-}
+const axios = (config: IAxiosRequestConfig): IAxiosPromise => xhr(processConfig(config))
 
 const processConfig = (config: IAxiosRequestConfig): IAxiosRequestConfig => {
   config.url = transformUrl(config)

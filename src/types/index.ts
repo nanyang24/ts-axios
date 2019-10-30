@@ -14,8 +14,31 @@ export type TMethods =
   | 'patch'
   | 'PATCH'
 
+export interface Axios {
+  request(config: IAxiosRequestConfig): IAxiosPromise
+
+  get(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+
+  delete(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+
+  head(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+
+  options(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+
+  post(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise
+
+  put(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise
+
+  patch(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise
+}
+
+export interface IAxiosInstance extends Axios {
+  (config: IAxiosRequestConfig): IAxiosPromise
+  (url: string, config?: IAxiosRequestConfig): IAxiosPromise
+}
+
 export interface IAxiosRequestConfig {
-  url: string
+  url?: string
   method?: TMethods
   data?: any
   params?: any

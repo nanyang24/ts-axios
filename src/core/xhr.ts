@@ -1,7 +1,7 @@
-import { IAxiosRequestConfig, IAxiosResponse, IAxiosPromise } from './types/index'
-import { parseHeaders } from './helper/util'
-import { transformResponse } from './helper/data'
-import { createError } from './helper/error'
+import { IAxiosRequestConfig, IAxiosResponse, IAxiosPromise } from '../types/index'
+import { parseHeaders } from '../helper/util'
+import { transformResponse } from '../helper/data'
+import { createError } from '../helper/error'
 
 export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
   return new Promise((resolve, reject) => {

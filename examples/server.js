@@ -89,4 +89,15 @@ router.get('/extend/get', function(req, res) {
   res.json(req.query)
 })
 
+router.get('/extend/user', function(req, res) {
+  res.json({
+    code: 0,
+    message: 'ok',
+    result: {
+      name: 'ny',
+      age: 24
+    }
+  })
+})
+
 app.use(router)

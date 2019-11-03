@@ -15,26 +15,26 @@ export type TMethods =
   | 'PATCH'
 
 export interface Axios {
-  request(config: IAxiosRequestConfig): IAxiosPromise
+  request<T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
 
-  get(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+  get<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
 
-  delete(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+  delete<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
 
-  head(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+  head<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
 
-  options(url: string, config?: IAxiosRequestConfig): IAxiosPromise
+  options<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
 
-  post(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise
+  post<T = any>(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise<T>
 
-  put(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise
+  put<T = any>(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise<T>
 
-  patch(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise
+  patch<T = any>(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise<T>
 }
 
 export interface IAxiosInstance extends Axios {
-  (config: IAxiosRequestConfig): IAxiosPromise
-  (url: string, config?: IAxiosRequestConfig): IAxiosPromise
+  <T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
+  <T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
 }
 
 export interface IAxiosRequestConfig {
@@ -47,15 +47,15 @@ export interface IAxiosRequestConfig {
   timeout?: number
 }
 
-export interface IAxiosResponse {
-  data: any
+export interface IAxiosResponse<T = any> {
+  data: T
   status: number
   statusText: string
   headers: any
   config: IAxiosRequestConfig
   request: any
 }
-export interface IAxiosPromise extends Promise<IAxiosResponse> {}
+export interface IAxiosPromise<T = any> extends Promise<IAxiosResponse<T>> {}
 
 export interface IAxiosError extends Error {
   config: IAxiosRequestConfig

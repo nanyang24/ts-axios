@@ -5,7 +5,7 @@ import { createError } from '../helper/error'
 
 export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout } = config
+    const { url = '', method = 'get', data = null, headers, responseType, timeout } = config
 
     const request = new XMLHttpRequest()
 

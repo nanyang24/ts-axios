@@ -15,6 +15,11 @@ export type TMethods =
   | 'PATCH'
 
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManager<IAxiosRequestConfig>
+    response: AxiosInterceptorManager<IAxiosResponse>
+  }
+
   request<T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
 
   get<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
@@ -63,4 +68,21 @@ export interface IAxiosError extends Error {
   request?: any
   response?: IAxiosResponse
   isAxiosError: boolean
+}
+
+// Interceptor
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn<T>): number
+
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T = any> {
+  // T: sync codes
+  // Promise<T>: async codes
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn<T = any> {
+  (error: T): T
 }

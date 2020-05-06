@@ -25,6 +25,7 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+
 const port = process.env.PORT || 9000
 
 module.exports = app.listen(port, () => {
@@ -32,6 +33,8 @@ module.exports = app.listen(port, () => {
 })
 
 const router = express.Router()
+
+registerInterceptorRouter()
 
 // 响应路由
 
@@ -99,5 +102,11 @@ router.get('/extend/user', function(req, res) {
     }
   })
 })
+
+function registerInterceptorRouter () {
+  router.get('/interceptor/get', function(req, res) {
+    res.end('May the Force be with you.')
+  })
+}
 
 app.use(router)

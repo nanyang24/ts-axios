@@ -25,13 +25,7 @@ jobs:
     - name: Run ESLint
       uses: stefanoeb/eslint-action@1.0.2
 
-    - name: TypeScript Error Reporter
-      uses: andoshin11/typescript-error-reporter-action@v1.0.2
-
-    - name: Danger JS Action
-      uses: danger/danger-js@9.1.8
-
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: echo Well Done!
 

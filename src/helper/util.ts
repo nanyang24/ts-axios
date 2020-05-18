@@ -1,8 +1,7 @@
 export const typeEqual = (value: any): string => Object.prototype.toString.call(value)
 
 // 会包含 FormData、ArrayBuffer 这些类型
-export const isObject: (value: any) => boolean = value =>
-  value !== null && typeof value === 'object'
+export const isObject: (value: any) => boolean = value => value !== null && typeof value === 'object'
 
 // 不会包含 FormData、ArrayBuffer 这些类型
 export const isPlainObject = (value: any): value is Object => typeEqual(value) === '[object Object]'
@@ -44,4 +43,27 @@ export const extend = <T, U>(to: T, from: U): T & U => {
   }
 
   return to as T & U
+}
+
+export function deepMerge(...objs: any[]): any {
+  const result = Object.create(null)
+
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        if (isPlainObject(val)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], val)
+          } else {
+            result[key] = deepMerge({}, val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+
+  return result
 }

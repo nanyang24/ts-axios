@@ -23,15 +23,14 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
       if (request.readyState !== 4) return
 
       const responseHeaders = parseHeaders(request.getAllResponseHeaders())
-      const responseData =
-        responseType && responseType !== 'text' ? request.response : request.responseText
+      const responseData = responseType && responseType !== 'text' ? request.response : request.responseText
       const response: IAxiosResponse = {
         data: transformResponse(responseData),
         status: request.status,
         statusText: request.statusText,
         headers: responseHeaders,
         config,
-        request
+        request,
       }
       handleResponse(response)
     }
@@ -44,9 +43,7 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
     }
     // 超时
     request.ontimeout = function handleTimeout() {
-      reject(
-        createError(`Timeout of ${config.timeout} ms exceeded`, config, 'ECONNABORTED', request)
-      )
+      reject(createError(`Timeout of ${config.timeout} ms exceeded`, config, 'ECONNABORTED', request))
     }
 
     const handleResponse = (response: IAxiosResponse): void => {
@@ -54,15 +51,7 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
-        reject(
-          createError(
-            `Request failed with status code ${response.status}`,
-            config,
-            null,
-            request,
-            response
-          )
-        )
+        reject(createError(`Request failed with status code ${response.status}`, config, null, request, response))
       }
     }
 
@@ -77,9 +66,9 @@ const _disposeHeader = (headers: any, data: any, request: XMLHttpRequest) => {
       delete headers[name]
     } else {
       // set header
-      request.setRequestHeader(name, wipeSemicolon(headers[name]))
+      request.setRequestHeader(name, headers[name])
     }
   })
 }
 
-const wipeSemicolon = (value: string) => value.replace(/;$/gi, '')
+// const wipeSemicolon = (value: string) => value.replace(/;$/gi, '')

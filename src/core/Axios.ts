@@ -1,13 +1,7 @@
-import {
-  IAxiosRequestConfig,
-  IAxiosResponse,
-  IAxiosPromise,
-  TMethods,
-  ResolvedFn,
-  RejectedFn
-} from '../types'
+import { IAxiosRequestConfig, IAxiosResponse, IAxiosPromise, TMethods, ResolvedFn, RejectedFn } from '../types'
 import dispatchRequest from './dispatchRequest'
 import { InterceptorManager } from '../core/InterceptorManager'
+import mergeConfig from './mergeConfig'
 
 export interface IAxiosInterceptor {
   request: InterceptorManager<IAxiosRequestConfig>
@@ -21,12 +15,14 @@ interface PromiseChains {
 
 // 对多种语法糖做统一的底层处理
 export default class Axios {
+  defaults: IAxiosRequestConfig
   interceptors: IAxiosInterceptor
 
-  constructor() {
+  constructor(initConfig: IAxiosRequestConfig) {
+    this.defaults = initConfig
     this.interceptors = {
       request: new InterceptorManager<IAxiosRequestConfig>(),
-      response: new InterceptorManager<IAxiosResponse>()
+      response: new InterceptorManager<IAxiosResponse>(),
     }
   }
 
@@ -41,11 +37,13 @@ export default class Axios {
       config = url
     }
 
+    config = mergeConfig(this.defaults, config)
+
     const chain: PromiseChains[] = [
       {
         resolved: dispatchRequest,
-        rejected: undefined
-      }
+        rejected: undefined,
+      },
     ]
 
     // request interceptor
@@ -101,23 +99,18 @@ export default class Axios {
     return this.request(
       Object.assign(config || {}, {
         method,
-        url
-      })
+        url,
+      }),
     )
   }
 
-  private _requestMethodWithData(
-    method: TMethods,
-    url: string,
-    data?: any,
-    config?: IAxiosRequestConfig
-  ) {
+  private _requestMethodWithData(method: TMethods, url: string, data?: any, config?: IAxiosRequestConfig) {
     return this.request(
       Object.assign(config || {}, {
         method,
         url,
-        data
-      })
+        data,
+      }),
     )
   }
 }

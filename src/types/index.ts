@@ -15,6 +15,7 @@ export type TMethods =
   | 'PATCH'
 
 export interface Axios {
+  defaults: IAxiosRequestConfig
   interceptors: {
     request: AxiosInterceptorManager<IAxiosRequestConfig>
     response: AxiosInterceptorManager<IAxiosResponse>
@@ -50,6 +51,7 @@ export interface IAxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  [propName: string]: any
 }
 
 export interface IAxiosResponse<T = any> {
